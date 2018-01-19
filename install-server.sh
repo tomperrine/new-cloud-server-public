@@ -9,10 +9,15 @@
 # the ansible update has happened
 
 # update the base OS
-apt-get update
-apt-get upgrade
+apt-get update --assume-yes
+apt-get upgrade --assume-yes
 
 # make sure git is present, might as well get ansible while we're at it
-apt-get install git ansible
+apt-get install git ansible --assume-yes
+
+# now use ansible to install *ALL THE THINGS*
+# postfix, imap, etc
+
+
 
 
