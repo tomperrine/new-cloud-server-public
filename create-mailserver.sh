@@ -13,7 +13,7 @@
 #
 # create the instance
 #
-time gcloud compute instances create ${INSTANCENAME} --machine-type=${MACHINETYPE} --image-family=${IMAGEFAMILY} --image-project=${IMAGEPROJECT}
+gcloud compute instances create ${INSTANCENAME} --machine-type=${MACHINETYPE} --image-family=${IMAGEFAMILY} --image-project=${IMAGEPROJECT}
 gcloud compute instances get-serial-port-output ${INSTANCENAME}
 
 # add the oslogin option so I don't need to manage SSH keys
@@ -39,6 +39,15 @@ while [[ ${SSHRETURN} -ne 0 ]]; do
     sleep 3
 done
 
+#
+# here's how to get the internal and external IP addresses for all instances
+echo "internal address: " `gcloud --format="value(networkInterfaces[0].networkIP)"  compute instances list`
+echo "external IP address: " `gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)"  compute instances list`
+
+# or for just the known instance
+echo just this instance
+gcloud --format="value(networkInterfaces[0].networkIP)"  compute instances describe ${INSTANCENAME} --zone ${CLOUDSDK_COMPUTE_ZONE}
+
 
 # put the main install script on the host and run it
 # dont return here until the OS is running, all packages have been installed and
@@ -46,18 +55,11 @@ done
 gcloud compute scp os-and-ansible.sh ${CLOUD_USERNAME}@${INSTANCENAME}: --project ${PROJ} --zone ${CLOUDSDK_COMPUTE_ZONE}
 gcloud compute ssh ${CLOUD_USERNAME}@${INSTANCENAME} --project ${PROJ} --zone ${CLOUDSDK_COMPUTE_ZONE} -- chmod +x os-and-ansible.sh
 
-gcloud compute ssh ${CLOUD_USERNAME}@${INSTANCENAME} --project ${PROJ} --zone ${CLOUDSDK_COMPUTE_ZONE} -- 'ls -l'
+gcloud compute ssh ${CLOUD_USERNAME}@${INSTANCENAME} --project ${PROJ} --zone ${CLOUDSDK_COMPUTE_ZONE} -- './os-and-ansible'
 
-#
-# here's how to get the internal and external IP addresses for all instances
-echo "internal address: " `gcloud --format="value(networkInterfaces[0].networkIP)"  compute instances list`
-echo "external IP address: " `gcloud --format="value(networkInterfaces[0].accessConfigs[0].natIP)"  compute instances list`
 
-# of for just the known instance
-echo just this instance
-gcloud --format="value(networkInterfaces[0].networkIP)"  compute instances describe ${INSTANCENAME} --zone ${CLOUDSDK_COMPUTE_ZONE}
 
-./os-and-ansible.sh
+
 
 
 
