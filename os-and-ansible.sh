@@ -9,11 +9,11 @@
 # the ansible update has happened
 
 # update the base OS
-apt-get update --assume-yes
-apt-get upgrade --assume-yes
+sudo apt-get update --assume-yes
+sudo apt-get upgrade --assume-yes
 
 # make sure git is present, might as well get ansible while we're at it
-apt-get install git ansible --assume-yes
+sudo apt-get install git ansible --assume-yes
 
 # go get the ansible repo
 git clone https://github.com/tomperrine/ansible-ispmail-tep-public.git

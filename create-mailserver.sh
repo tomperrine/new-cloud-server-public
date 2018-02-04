@@ -25,7 +25,7 @@ gcloud compute instances add-metadata ${INSTANCENAME} --metadata enable-oslogin=
 SSHRETURN="dummy"
 while [[ "RUNNING" != ${SSHRETURN} ]]; do
     SSHRETURN=`gcloud compute instances describe ${INSTANCENAME} | grep status: | awk -F\  ' {print $2}' `
-    sleep 3
+    sleep 5
 #    echo sshreturn ${SSHRETURN}
 done
 #echo ${SSHRETURN}
