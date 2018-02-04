@@ -15,9 +15,11 @@ apt-get upgrade --assume-yes
 # make sure git is present, might as well get ansible while we're at it
 apt-get install git ansible --assume-yes
 
-# now use ansible to install *ALL THE THINGS*
-# postfix, imap, etc
+# go get the ansible repo
+git clone https://github.com/tomperrine/ansible-ispmail-tep-public.git
 
+# and run ansible against it
+sudo ansible-playbook -i "localhost," -c local  ./ansible-ispmail-tep-public/ispmail.yml
 
 
 

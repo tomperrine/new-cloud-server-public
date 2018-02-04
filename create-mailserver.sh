@@ -57,8 +57,8 @@ echo "external IP address: " `gcloud --format="value(networkInterfaces[0].access
 echo just this instance
 gcloud --format="value(networkInterfaces[0].networkIP)"  compute instances describe ${INSTANCENAME} --zone ${CLOUDSDK_COMPUTE_ZONE}
 
-#
-# FIXME - run the os-and-ansible script
+./os-and-ansible.sh
+
 
 
 exit
